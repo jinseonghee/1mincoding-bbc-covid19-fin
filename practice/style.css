@@ -1,0 +1,209 @@
+html {
+	font-family: 'Noto Sans KR', sans-serif;
+}
+body {
+	margin: 0;
+}
+div, section, header, footer, p, h1, h2 {
+	box-sizing: border-box; /*내부 padding이나 boarder가 width hide에 포함이 되도록 함*/
+}
+a {
+	color: royalblue;
+}
+img {
+	max-width: 100%; /*반응형 떄문에 container가 이미지보다 줄어들었을때 Img 가 같이 줄어 들 수 있도록 함*/
+	height: auto;
+}
+
+.global-width {
+    max-width: 620px; /*스마트 폰에서는 620px 보다 더 줄어들어야 하기 때문에 max-width를 써줌*/
+    margin: 0 auto; /*좌우 margin을 auto로 해서 center 정렬*/ 
+	/* padding : 0 1rem;  1rem 기본 단위는 16px, 단위를 정하지 않는 이상 css default는 16px */
+	padding: 3rem 1rem; /*nav bar 때문에 내림*/
+	
+
+}
+.scroll-graphic {
+	overflow-x: hidden;
+	position: sticky; /*scroll을 내리다 이미지가 브라우저에 탁 붙는걸 막아줌, ie에서 지원이 안되면 position: fixed를 이용해서 js로 계산을 조정해서 static으로 풀어주고 해야 함*/
+	top: 0; /*sticky가 적용 된 element의 위치가 top에 지정한 위치가 되면은 그때부터 안올라가고 붙어있게 된다.(브라우저 상단)*/
+	height: 100vh;/*sticky가 지정되면 높이가 따로 지정되지 않기 때문에 높이를 따로 지정*/
+}
+
+.graphic-item {
+	display: flex; /*크기에 상관없이 이미지가 container안에 center에 오게 하기위해*/
+	align-items: center; /*세로 방향 center 정렬*/
+	justify-content: center; /*가로 방향 center 정렬*/
+	position: absolute; /*이미지들이 투명도가 바뀔 때마다 겹쳐있게 만들기 위해*/
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	transition: 0.5s; /*이미지를 부드럽게 올라오게 처리*/ 
+	will-change: opacity; /*will-change는 브라우저에 바뀔거를 미리 알려준다.(불투명도를 change 시킬거다 라는 의미);*/
+}
+
+.visible {
+	opacity: 1;
+}
+.scene-img {
+	max-height: 100vh; /*크기가 줄어들었을때 이미지 조정*/
+}
+
+.scroll-text {
+	/*position의 기본 값은 static임. 기본값이 static이 아니면 z-index를 가지고 있어서 z-index숫자에 따라 위아래로 가능한데, 
+	따로 z-index를 안주면 위에 있는애가 아래로 올라옴 (그렇기 때문에 맨 아래에 코딩이 되어있는 scroll-text가 위로 올라옴)*/
+	position: relative; /* 텍스트를 위로 이미지 위에 올림 */
+}
+
+.step {
+	margin-bottom: 60vh; /*창 사이즈의 60%의 높이*/
+	padding: 0.5rem 1rem;
+	border-radius: 10px;
+	background: rgba(255,255,255,0.8);
+	box-shadow: rgba(0,0,0,0.3) 0 0 3px;
+}
+
+.bird {
+	position: absolute;
+	left:0;
+	bottom: 70%;
+	width: 100px;
+	transform: translateX(-100%); /*translate에 %를 쓰면 내 크기가 된다, 즉 새의 크기의 100%만큼 바깥쪽으로 삐져나가게 함*/
+	transition: 1.5s 0.5s linear; /*linear는 속도를 일정하게 해줌, 먼저 쓴 초는 transition재생시간, 두번째 쓴 초는 transition delay임*/
+}
+
+[data-index="5"] .bird {
+	left: 30%;
+	bottom: 30%;
+}
+
+.global-foote {
+	padding: 2rem 0;
+	text-align: center;
+}
+
+.strikethrough {
+	text-decoration: line-through; /*밑줄 긋기*/
+}
+
+/*nav bar*/
+.global-nav {
+    height: 44px;
+    padding: 0 1rem;
+}
+
+.local-nav {
+    /* height: 52px;
+    padding: 0 1rem;   
+    border-bottom: 1px solid #bbb; */
+	position: absolute;
+	top: 45px;
+	left: 0;
+	z-index: 11;
+	width: 100%;
+	height: 52px;
+	padding: 0 1rem;
+	border-bottom: 1px solid #ddd;
+}
+
+.local-nav-sticky .local-nav {
+	position: fixed;
+	top: 0;
+	background: rgba(255, 255, 255, 0.1);
+	/* for iPhone */
+	-webkit-backdrop-filter: saturate(180%) blur(15px);
+	-moz-backdrop-filter: saturate(180%) blur(15px);
+	-o-backdrop-filter: saturate(180%) blur(15px);
+	backdrop-filter: saturate(180%) blur(15px);
+}
+
+.global-nav-links,
+.local-nav-links {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    max-width: 1000px;
+    margin: 0 auto; /*center 정렬 위에 왼쪽 오른쪽 margin을 auto로 줌*/
+}
+
+.global-nav-links {
+    justify-content: space-between; /*같은 간격으로 정렬*/
+    /*margin에 auto가 들어가면 margin을 다 소비한 다는 내용, 그래서 center 정렬 할 때 margin left,right를 하는 이유가 왼쪽 오른쪽 margin 을 다 소비를 하니까 결국 center에 배치된다는 거임*/
+}
+
+.local-nav-links .product-name { /*local-nav-link의 a tag보다 classname 을 구체적으로 적어서 먼저 적용*/
+    margin-right: auto;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.local-nav-links a {
+    font-size: 0.8rem;
+}
+
+.local-nav-links a:not(.product-name) { /*not()은 괄호 안에 들어간 애는 제외하고 적용시키라는 의미*/
+    margin-left: 2em;
+}
+
+html {
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 14px;
+}
+body {
+	overflow-x: hidden;
+	color: rgb(29, 29, 31);
+	letter-spacing: -0.05em; /*자간*/
+	background: white;
+}
+p {
+    line-height: 1.6;
+}
+
+a {
+    color: rgb(29, 29, 31);
+    text-decoration: none; /*a tag의 기본 밑줄 없애기*/
+}
+
+.image-blend-canvas.sticky {
+	position: fixed;
+	top: 0;
+	z-index: 10;
+}
+
+.canvas-caption {
+	max-width: 1000px;
+	margin: -24rem auto 0;
+	padding: 0 1rem;
+	font-size: 1.2rem;
+}
+
+.sticky-elem-canvas {
+	top: 0;
+	height: 100%;
+}
+.sticky-elem-canvas canvas {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
+
+#show-scene-3 #scroll-section-3 .sticky-elem {
+	display: block;
+	will-change: transform, opacity;
+}
+
+/* .image-blend-wrapper {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: none;
+  }
+  .image-blend-wrapper.active {
+	display: block;
+  }
+  
+   */
